@@ -21,9 +21,9 @@ const computer = {
 	},
 
 
-	add(slot) {
-		/* Takes slot number as an input and adds value in that memory slot to the accumulator */
-		const tmp = this.accumulator + this.memory[slot];
+	add(index) {
+		/* Takes index number as an input and adds value in that memory index to the accumulator */
+		const tmp = this.accumulator + this.memory[index];
 		try {
 			if (tmp > 999) throw "overflow";
 		}
@@ -35,9 +35,9 @@ const computer = {
 		this.accumulator = tmp;
 	},
 
-	subtract(slot) {
-		/* Substract value in memory slot pointed by input from the accumulator */
-		const tmp = this.accumulator - this.memory[slot];
+	subtract(index) {
+		/* Substract value in memory index pointed by input from the accumulator */
+		const tmp = this.accumulator - this.memory[index];
 		if (tmp < 0) {
 			this.negativeFlag = true;
 			this.accumulator = 0;
@@ -48,35 +48,35 @@ const computer = {
 		}
 	},
 
-	store(slot) {
-		this.memory[slot] = this.accumulator;
+	store(index) {
+		this.memory[index] = this.accumulator;
 	},
 
-	load(slot) {
-		this.accumulator = this.memory[slot];
+	load(index) {
+		this.accumulator = this.memory[index];
 	},
 
-	branch(slot) {
+	branch(index) {
 		try {
-			if (!Number.isInteger(slot)) throw "invalid slot";
-			if (slot > 99) throw "slot out of upper bound";
-			if (slot < 0) throw "slot out of lower bound";
+			if (!Number.isInteger(index)) throw "invalid index";
+			if (index > 99) throw "index out of upper bound";
+			if (index < 0) throw "index out of lower bound";
 		}
 		catch(err) {
 			console.log(err);
 		}
-		this.programCounter = slot;
+		this.programCounter = index;
 	},
 
-	branchIfZero(slot) {
+	branchIfZero(index) {
 		if (this.accumulator == 0) {
-			this.branch(slot);
+			this.branch(index);
 		}
 	},
 
-	branchIfPositive(slot) {
+	branchIfPositive(index) {
 		if (!this.negativeflag) {
-			this.branch(slot);
+			this.branch(index);
 		}
 	},
 
@@ -96,39 +96,46 @@ const computer = {
 
 	output() {
 		this.outbox.push(this.accumulator);
-	}
+	},
 
 	halt() {
 		this.endOfProgram = true;
 	},
 
-	data(value, slot) {
+	data(value, index) {
 		try {
 			if (!Number.isInteger(value)) throw "invalid value";
-			if (!Number.isInteger(slot)) throw "invalid slot";
+			if (!Number.isInteger(index)) throw "invalid index";
 			if (value > 999) throw "value out of upper bound";
 			if (value < 0) throw "value out of lower bound";
-			if (slot > 99) throw "slot out of upper bound";
-			if (slot < 0) throw "slot out of lower bound";
+			if (index > 99) throw "index out of upper bound";
+			if (index < 0) throw "index out of lower bound";
 		}
 		catch(err) {
 			console.log(err);
 		}
 
-		this.memory[slot] = value;
+		this.memory[index] = value;
 	},
 
 	loadInstructions(instructionArray) {
-		/* Loads an array of instrucions (3 digit integers) to memory. Intructions after HALT (000) are considered to be DATA instructions and the values are loaded to  next free memory slot. */
+		/* Loads an array of instrucions (3 digit integers) to memory. Intructions after HALT (000) are considered to be DATA instructions and the values are loaded to next free memory index. */
 		try {
-			if (instructionArray.constructor === Array) throw "invalid instructionArray";
+			if (Array.isArray(instructionArray)) throw "invalid instructionArray";
 			if (instructionArray.length > 100) throw "too many instructions";
 		}
 		catch(err) {
 			console.log(err);
 		}
-		instructionArray.forEach(this.data);
-	}
+		instructionArray.forEach((value, index) => {
+			this.data(value, index);
+		});
+	},
+
+	test(value, index) {
+		console.log("value: " + value + " index: " + index);
+		this.memory[0] = 100;
+	},
 
 	execute(value) {
 		try {
@@ -140,25 +147,25 @@ const computer = {
 			console.log(err);
 		}
 
-		const operation = value / 100; 
-		const slot = value % 100;
+		const operation = value / 100;
+		const index = value % 100;
 
 		if (value == 0) {
-			
+
 		} else if (operation == 1) {
-			this.add(slot);
+			this.add(index);
 		} else if (operation == 2) {
-			this.subtract(slot);
+			this.subtract(index);
 		} else if (operation == 3) {
-			this.store(slot);
+			this.store(index);
 		} else if (operation == 5) {
-			this.load(slot);
+			this.load(index);
 		} else if (operation == 6) {
-			this.branch(slot);		
+			this.branch(index);
 		} else if (operation == 7) {
-			this.branchIfZero(slot);
+			this.branchIfZero(index);
 		} else if (operation == 8) {
-			this.branchIfPositive(slot);
+			this.branchIfPositive(index);
 		} else if (value == 901) {
 			this.input();
 		} else if (value == 902) {
@@ -167,7 +174,4 @@ const computer = {
 			console.log("invalid operation");
 		}
 	},
-	
-
-
 };
