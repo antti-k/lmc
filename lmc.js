@@ -1,5 +1,5 @@
 const computer = {
-	memory: new Array(100).fill(0), //Memory array of 100 zeroes
+	memory: new Array(100).fill(0), // Memory array of 100 zeroes
 	programCounter: 0,
 	cycleCount: 0,
 	accumulator: 0,
@@ -9,7 +9,7 @@ const computer = {
 	endOfProgram: false,
 
 	reset() {
-		/* Resets computer to starting state */
+		/* Resets the computer to initial state */
 		this.memory.fill(0);
 		this.programCounter = 0;
 		this.cycleCount = 0;
@@ -49,14 +49,17 @@ const computer = {
 	},
 
 	store(index) {
+		/* Copy a value from a memory index to the accumulator */
 		this.memory[index] = this.accumulator;
 	},
 
 	load(index) {
+		/* Copy a value from memory to the accumulator */
 		this.accumulator = this.memory[index];
 	},
 
 	branch(index) {
+		/* Branch to given index. */
 		try {
 			if (!Number.isInteger(index)) throw "invalid index";
 			if (index > 99) throw "index out of upper bound";
@@ -69,18 +72,21 @@ const computer = {
 	},
 
 	branchIfZero(index) {
-		if (this.accumulator == 0) {
+		/* Branch if the accumulator value is zero. */
+		if (this.accumulator == 0 && !this.negativeFlag) {
 			this.branch(index);
 		}
 	},
 
 	branchIfPositive(index) {
+		/* Branch if the value of accumulator is positive */
 		if (!this.negativeflag) {
 			this.branch(index);
 		}
 	},
 
 	input() {
+		/* Get next value from input and copy it to the accumulatori. */
 		const tmp = this.input.shift();
 		try {
 			if (!Number.isInteger(tmp)) throw "invalid input";
@@ -95,14 +101,17 @@ const computer = {
 	},
 
 	output() {
+		/* Copy the value from the accumulator to the output. */
 		this.outbox.push(this.accumulator);
 	},
 
 	halt() {
+		/* End the program. */
 		this.endOfProgram = true;
 	},
 
 	data(value, index) {
+		/* Store given instruction to given index in memory. */
 		try {
 			if (!Number.isInteger(value)) throw "invalid value";
 			if (!Number.isInteger(index)) throw "invalid index";
@@ -121,23 +130,20 @@ const computer = {
 	loadInstructions(instructionArray) {
 		/* Loads an array of instrucions (3 digit integers) to memory. Intructions after HALT (000) are considered to be DATA instructions and the values are loaded to next free memory index. */
 		try {
-			if (Array.isArray(instructionArray)) throw "invalid instructionArray";
+			if (Array.isArray(instructionArray)) throw "invalid input";
 			if (instructionArray.length > 100) throw "too many instructions";
 		}
 		catch(err) {
 			console.log(err);
 		}
+		
 		instructionArray.forEach((value, index) => {
 			this.data(value, index);
 		});
 	},
 
-	test(value, index) {
-		console.log("value: " + value + " index: " + index);
-		this.memory[0] = 100;
-	},
-
 	execute(value) {
+		/* Execute given instruction */
 		try {
 			if (!Number.isInteger(value)) throw "invalid value";
 			if (value > 999) throw "value out of upper bound";
@@ -151,7 +157,7 @@ const computer = {
 		const index = value % 100;
 
 		if (value == 0) {
-
+			this.halt();
 		} else if (operation == 1) {
 			this.add(index);
 		} else if (operation == 2) {
@@ -174,4 +180,16 @@ const computer = {
 			console.log("invalid operation");
 		}
 	},
+
+	cycle() {
+		/* If not end of program: execute next instricton and increment program counter by one */
+		if (!endOfProgram) {
+			this.execute(this.memory[this.programCounter]);
+			this.programCounter++;
+		}
+	}, 
+
+	toString() {
+		return this.memory // TODO: complete toString
+	}
 };
