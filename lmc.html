@@ -1,12 +1,25 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
   <head>
-    <meta charset='UTF-8'/>
+    <meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<title>LMC</title>
-    <link rel='stylesheet' href='styles.css'/>
+    <link rel="stylesheet" href="styles.css"/>
   </head>
   <body>
-    <script src='lmc.js'>
-    </script>
+    <div class="computer-state">
+  	  <div class="memory-container">
+	    <table class="memory-table table" id="memory-table">
+	    </table>
+		<table class="register-tale table" id="register-table">
+		</table>
+		<table class="flag-table table" id="register-table">
+		</table>
+		<textarea id="code-input" rows="20" cols="25"></textarea>
+	  </div>
+	</div>
+	<script src="computer.js"></script>
+	<script src="assembler.js"></script>
+	<script src="lmc.js"></script>
   </body>
 </html>
