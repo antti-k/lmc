@@ -9,6 +9,7 @@
   <body>
     <div class="menu-container">
       <div class="controls">
+        <button class="control-button" onclick="window.open('https://github.com/antti-k/lmc')">About</button>
         <div class="template-selector">
           <button class="control-button">Load</button>
           <select class="select">
@@ -18,7 +19,6 @@
         <button class="control-button" onclick="App.onClickAssemble()">Assemble</button>
         <button class="control-button" onclick="App.onClickCycle()">Step</button>
         <button class="control-button" onclick="App.onClickRun()">Run</button>
-        <button class="control-button">Stop</button>
       </div>
     </div>
     <div class="main-container">
@@ -27,6 +27,19 @@
         <textarea class="text-input code-input" id="code-input"></textarea>
       </div>
       <div class="sub-container io-container">
+        <h1>Reg</h1>
+        <table class="table">
+          <tr>
+            <td>PC</td>
+            <td>CC</td>
+            <td>AC</td>
+          </tr>
+          <tr>
+            <td id="pc"></td>
+            <td id="cc"></td>
+            <td id="ac"></td>
+          </tr>
+        </table>
         <div class="io-box">
           <h1>Inbox</h1>
           <textarea class="text-input io-input" id="inbox-input"></textarea>
@@ -37,10 +50,6 @@
         </div>
       </div>
       <div class="sub-container state-container">
-        <table class="register-tale table" id="register-table">
-        </table>
-        <table class="flag-table table" id="register-table">
-        </table>
     	  <div class="memory">
           <h1>Memory</h1>
     	    <table class="table" id="memory-table">

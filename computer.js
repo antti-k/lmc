@@ -220,11 +220,8 @@ const Computer = {
 		return false
 	},
 
+	/* Clears inbox */
 	clearInbox() {
 		this.inbox = new Array();
 	},
-
-	toString() {
-		return this.memory // TODO: complete toString
-	}
 }
