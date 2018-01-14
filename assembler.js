@@ -1,19 +1,20 @@
-const input = document.getElementById("code-input").value;
-
-const assembler = {
+const Assembler = {
 	validInstructions : ["ADD", "SUB", "STA", "LDA", "BRA", "BRZ", "BRP",
 		"INP", "OUT", "HLT", "DAT"],
 
 	assemble(input) {
 		const parsedInput = this.parseText(input);
 		const labels = this.getLabels(parsedInput);
+		const labelsRemoved = this.removeLabels(parsedInput, labels);
+		console.log(labelsRemoved); //TODO: remove console.log
+		return labelsRemoved.map((arr) => this.toNumeric(arr, labels))
 	},
 
 	parseText(textInput) {
 		const tmp =  textInput
 			.split('\n')
-			.filter((row) => !row.startsWith("\\\\"))// Remove rows beginning with comment
-			.map((row) => row.split("\\\\")[0]// Remove comments 
+			.filter((row) => !row.startsWith("//"))// Remove rows beginning with comment
+			.map((row) => row.split("//")[0]// Remove comments 
 				.trim()// Remove whitespace from the start and from the end
 				.toUpperCase()// This assembler is not case sensitive
 				.split(/\s+/g));// Split at whitespace 
@@ -26,32 +27,75 @@ const assembler = {
 			if (!this.validInstructions.includes(arr[0])) {
 				labels.set(arr[0], index);
 			}
-		}
+		})
 		return labels
 	},
 
-	removeLabels(input, labels) {
-		const tmp = input.map((arr) => {
-			if (labels.has(arr[0])) {
-			arr.shift();
-			}
+	removeLabel(arr, labels) {
+		let tmp = arr;
+		if (labels.has(tmp[0])) {
+			tmp.shift();
 		}
 		return tmp
-	}
+	},
 
-	toNumeric(args) {
-		const len = args.length();
+	removeLabels(input, labels) {
+		const tmp = input.map((arr) => this.removeLabel(arr, labels));
+		return tmp
+	},
+
+	// TODO: Rewrite this crap
+	toNumeric(args, labels) {
+		const len = args.length;
 		if (len == 1) {
 			const arg = args[0];
 			if (arg == "INP") {
 				return 901
 			} else if (arg == "OUT") {
 				return 902
-			else {
+			} else {
 				return 000
 			}
 		} else if (len == 2) {
-			//TODO: do stuff to parse args[1] (labels & numbers)
+			const arg1 = args[0];
+			let arg2 = args[1];
+			if (labels.has(arg2)) {
+				arg2 = labels.get(arg2);
+			}
+
+			arg2 = parseInt(arg2);
+
+			if (Number.isInteger(arg2)) {
+				if (arg1 == "DAT") {
+					if (arg2 > 999 || arg2 < 0) {
+						return 000
+					} else {
+						return arg2
+					}
+				} else if (arg2 > 99 || arg2 < 0) {
+					return 000
+				}
+			} else {
+				return 000
+			}
+
+			if (arg1 == "ADD") {
+				return 100 + arg2
+			} else if (arg1 == "SUB") {
+				return 200 + arg2
+			} else if (arg1 == "STA") {
+				return 300 + arg2
+			} else if (arg1 == "LDA") {
+				return 500 + arg2
+			} else if (arg1 == "BRA") {
+				return 600 + arg2
+			} else if (arg1 == "BRZ") {
+				return 700 + arg2
+			} else if (arg1 == "BRP") {
+				return 800 + arg2
+			} else {
+				return 000
+			}
 		} else {
 			return 000
 		}

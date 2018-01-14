@@ -1,20 +1,58 @@
-const table = document.getElementById("memory-table");
+const App = {
+	memTable: document.getElementById("memory-table"),
+	codeInput: document.getElementById("code-input"),
+	inboxInput: document.getElementById("inbox-input"),
+	memoryCells: new Array(),
 
-
-const generate = function generateTable(table) {
-	for (let i = 0; i < 12; i++) {
-		const row = table.insertRow(i);
-		for (let j = 0; j < 12; j++) {
-			const cell = row.insertCell(j);
-			cell.innerHTML = "CELL";
+	deleteTable(table) {
+		while (table.rows.length > 0) {
+			table.deleteRow(0);
 		}
+	},
+	
+	generateMemTable(memoryArray, table) {
+		let currentHeaderRow = table.insertRow(-1);
+		let currentValueRow = table.insertRow(-1);
+		memoryArray.forEach((value, index) => {
+			if (index != 0 && index % 10 == 0) {
+				currentHeaderRow = table.insertRow(-1);
+				currentValueRow = table.insertRow(-1);
+			}
+			const headerCell = currentHeaderRow.insertCell(-1);
+			const valueCell = currentValueRow.insertCell(-1);
+			headerCell.innerHTML = index;
+			valueCell.innerHTML = value;
+			this.memoryCells.push(valueCell);
+		})
+	},
+	
+	updateMemTable(memoryArray) {
+		memoryArray.forEach((value, index) => {
+			this.memoryCells[index].innerHTML = value;
+		})
+	},
+
+	loadToInbox(input, inbox) {
+		input.split("\n")
+			.map((val) => parseInt(val))
+			.filter((val) => Number.isInteger(val))
+			.forEach((val) => inbox.push(val));
+	},
+
+		
+
+	onClickAssemble() {
+		const instructionArray = Assembler.assemble(this.codeInput.value);
+		Computer.reset();
+		Computer.loadInstructions(instructionArray);
+		this.updateMemTable(Computer.memory);
+		this.loadToInbox(this.inboxInput.value, Computer.inbox);
+	},
+
+	onClickCycle() {
+		Computer.cycle();
+		this.updateMemTable(Computer.memory);
 	}
 }
 
-generate(table);
-
-const remove = function removeAllRows(table) {
-	while(table.hasChildNodes()) {
-		table.removeChild(table.firstChild);
-	}
-}
+App.generateMemTable(Computer.memory, App.memTable);

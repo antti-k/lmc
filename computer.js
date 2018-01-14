@@ -1,4 +1,4 @@
-const computer = {
+const Computer = {
 	memory: new Array(100).fill(0), // Memory array of 100 zeroes
 	programCounter: 0,
 	cycleCount: 0,
@@ -86,9 +86,9 @@ const computer = {
 	},
 
 	input() {
-		/* Get next value from input and copy it to the accumulatori. */
-		const tmp = this.input.shift();
-		try {
+		/* Get next value from inbox and copy it to the accumulatori. */
+		const tmp = this.inbox.shift();
+		/* TODO:try {
 			if (!Number.isInteger(tmp)) throw "invalid input";
 			if (value > 999) throw "input out of upper bound";
 			if (value < 0) throw "input out of lower bound";
@@ -96,6 +96,7 @@ const computer = {
 		catch(err) {
 			console.log(err);
 		}
+		*/
 
 		this.accumulator = tmp;
 	},
@@ -130,7 +131,7 @@ const computer = {
 	loadInstructions(instructionArray) {
 		/* Loads an array of instrucions (3 digit integers) to memory. Intructions after HALT (000) are considered to be DATA instructions and the values are loaded to next free memory index. */
 		try {
-			if (Array.isArray(instructionArray)) throw "invalid input";
+			if (!Array.isArray(instructionArray)) throw "invalid input: " + instructionArray;
 			if (instructionArray.length > 100) throw "too many instructions";
 		}
 		catch(err) {
@@ -153,7 +154,7 @@ const computer = {
 			console.log(err);
 		}
 
-		const operation = value / 100;
+		const operation = Math.round(value / 100);
 		const index = value % 100;
 
 		if (value == 0) {
@@ -183,13 +184,18 @@ const computer = {
 
 	cycle() {
 		/* If not end of program: execute next instricton and increment program counter by one */
-		if (!endOfProgram) {
-			this.execute(this.memory[this.programCounter]);
+		if (!this.endOfProgram) {
+			const tmp = this.programCounter;
 			this.programCounter++;
+			this.cycleCount++;
+			this.execute(this.memory[tmp]);
+			if (this.programCounter > 99) {
+				this.endOfProgram = true;
+			}
 		}
 	}, 
 
 	toString() {
 		return this.memory // TODO: complete toString
 	}
-};
+}

@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="styles.css"/>
   </head>
   <body>
+    <div class="controls">
+      <button onclick="App.onClickAssemble()">Assemble</button>
+      <button onclick="App.onClickCycle()">Cycle</button>
+    </div>
     <div class="computer-state">
   	  <div class="memory-container">
 	    <table class="memory-table table" id="memory-table">
@@ -16,6 +20,7 @@
 		<table class="flag-table table" id="register-table">
 		</table>
 		<textarea id="code-input" rows="20" cols="25"></textarea>
+    <textarea id="inbox-input" rows="5" cols="10"></textarea>
 	  </div>
 	</div>
 	<script src="computer.js"></script>
