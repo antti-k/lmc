@@ -6,7 +6,6 @@ const Assembler = {
 		const parsedInput = this.parseText(input);
 		const labels = this.getLabels(parsedInput);
 		const labelsRemoved = this.removeLabels(parsedInput, labels);
-		console.log(labelsRemoved); //TODO: remove console.log
 		return labelsRemoved.map((arr) => this.toNumeric(arr, labels))
 	},
 
@@ -21,6 +20,7 @@ const Assembler = {
 		return tmp
 	},
 
+	/* Get labels from parsed input */
 	getLabels(input) {
 		const labels = new Map();
 		input.forEach((arr, index) => {
@@ -39,6 +39,7 @@ const Assembler = {
 		return tmp
 	},
 
+	/* Removes labels from input */
 	removeLabels(input, labels) {
 		const tmp = input.map((arr) => this.removeLabel(arr, labels));
 		return tmp
