@@ -2,6 +2,7 @@ const App = {
 	memTable: document.getElementById("memory-table"),
 	codeInput: document.getElementById("code-input"),
 	inboxInput: document.getElementById("inbox-input"),
+	outboxOutput: document.getElementById("outbox-output"),
 	memoryCells: new Array(),
 
 	deleteTable(table) {
@@ -9,7 +10,7 @@ const App = {
 			table.deleteRow(0);
 		}
 	},
-	
+
 	generateMemTable(memoryArray, table) {
 		let currentHeaderRow = table.insertRow(-1);
 		let currentValueRow = table.insertRow(-1);
@@ -32,26 +33,39 @@ const App = {
 		})
 	},
 
-	loadToInbox(input, inbox) {
+	loadToInbox(input, cpu) {
+		cpu.clearInbox();
 		input.split("\n")
 			.map((val) => parseInt(val))
 			.filter((val) => Number.isInteger(val))
-			.forEach((val) => inbox.push(val));
+			.forEach((val) => cpu.inbox.push(val));
 	},
 
-		
+	cycle() {
+		this.loadToInbox(this.inboxInput.value, Computer);
+		const tmp = Computer.cycle();
+		this.inboxInput.value = Computer.inbox.join("\n");
+		this.outboxOutput.value = Computer.outbox.join("\n");
+		this.updateMemTable(Computer.memory);
+		return tmp
+	},
 
 	onClickAssemble() {
 		const instructionArray = Assembler.assemble(this.codeInput.value);
 		Computer.reset();
 		Computer.loadInstructions(instructionArray);
 		this.updateMemTable(Computer.memory);
-		this.loadToInbox(this.inboxInput.value, Computer.inbox);
 	},
 
 	onClickCycle() {
-		Computer.cycle();
-		this.updateMemTable(Computer.memory);
+		this.cycle();
+	},
+
+	onClickRun() {
+		let tmp = true;
+		while (tmp == true) {
+			tmp = this.cycle();
+		}
 	}
 }
 

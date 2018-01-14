@@ -9,19 +9,16 @@
   <body>
     <div class="menu-container">
       <div class="controls">
-        <button class="control-button" onclick="App.onClickAssemble()">Assemble</button>
-        <button class="control-button" onclick="App.onClickCycle()">One Cycle</button>
-        <button class="control-button">Run</button>
-        <div class="control-selector">
-          <p>Speed:</p>
-          <input type="range" min="0" max="10" value="0"/>
-        </div>
         <div class="template-selector">
-          <button class="control-button">Load:</button>
-          <select>
+          <button class="control-button">Load</button>
+          <select class="select">
             <option value="">-</option>
           </select>
         </div>
+        <button class="control-button" onclick="App.onClickAssemble()">Assemble</button>
+        <button class="control-button" onclick="App.onClickCycle()">Step</button>
+        <button class="control-button" onclick="App.onClickRun()">Run</button>
+        <button class="control-button">Stop</button>
       </div>
     </div>
     <div class="main-container">
@@ -40,15 +37,15 @@
         </div>
       </div>
       <div class="sub-container state-container">
+        <table class="register-tale table" id="register-table">
+        </table>
+        <table class="flag-table table" id="register-table">
+        </table>
     	  <div class="memory">
           <h1>Memory</h1>
-    	    <table class="memory-table table" id="memory-table">
+    	    <table class="table" id="memory-table">
     	    </table>
         </div>
-    		<table class="register-tale table" id="register-table">
-    		</table>
-    		<table class="flag-table table" id="register-table">
-    		</table>
   	  </div>
   	</div>
 	<script src="computer.js"></script>

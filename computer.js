@@ -29,10 +29,12 @@ const Computer = {
 		}
 		catch(err) {
 			console.log(err);
+			return false
 		}
 
 		this.negativeFlag = false;
 		this.accumulator = tmp;
+		return true
 	},
 
 	subtract(index) {
@@ -46,16 +48,19 @@ const Computer = {
 		else {
 			this.accumulator = tmp;
 		}
+		return true
 	},
 
 	store(index) {
 		/* Copy a value from a memory index to the accumulator */
 		this.memory[index] = this.accumulator;
+		return true
 	},
 
 	load(index) {
 		/* Copy a value from memory to the accumulator */
 		this.accumulator = this.memory[index];
+		return true
 	},
 
 	branch(index) {
@@ -67,8 +72,10 @@ const Computer = {
 		}
 		catch(err) {
 			console.log(err);
+			return false
 		}
 		this.programCounter = index;
+		return true
 	},
 
 	branchIfZero(index) {
@@ -76,6 +83,7 @@ const Computer = {
 		if (this.accumulator == 0 && !this.negativeFlag) {
 			this.branch(index);
 		}
+		return true
 	},
 
 	branchIfPositive(index) {
@@ -83,32 +91,36 @@ const Computer = {
 		if (!this.negativeflag) {
 			this.branch(index);
 		}
+		return true
 	},
 
 	input() {
 		/* Get next value from inbox and copy it to the accumulatori. */
 		const tmp = this.inbox.shift();
-		/* TODO:try {
+		try {
 			if (!Number.isInteger(tmp)) throw "invalid input";
-			if (value > 999) throw "input out of upper bound";
-			if (value < 0) throw "input out of lower bound";
+			if (tmp > 999) throw "input out of upper bound";
+			if (tmp < 0) throw "input out of lower bound";
 		}
 		catch(err) {
 			console.log(err);
+			return false
 		}
-		*/
 
 		this.accumulator = tmp;
+		return true
 	},
 
 	output() {
 		/* Copy the value from the accumulator to the output. */
 		this.outbox.push(this.accumulator);
+		return true
 	},
 
 	halt() {
 		/* End the program. */
 		this.endOfProgram = true;
+		return true
 	},
 
 	data(value, index) {
@@ -123,9 +135,11 @@ const Computer = {
 		}
 		catch(err) {
 			console.log(err);
+			return false
 		}
 
 		this.memory[index] = value;
+		return true
 	},
 
 	loadInstructions(instructionArray) {
@@ -136,11 +150,13 @@ const Computer = {
 		}
 		catch(err) {
 			console.log(err);
+			return false
 		}
-		
+
 		instructionArray.forEach((value, index) => {
 			this.data(value, index);
 		});
+		return true
 	},
 
 	execute(value) {
@@ -152,33 +168,35 @@ const Computer = {
 		}
 		catch(err) {
 			console.log(err);
+			return false
 		}
 
 		const operation = Math.round(value / 100);
 		const index = value % 100;
 
 		if (value == 0) {
-			this.halt();
+			return this.halt()
 		} else if (operation == 1) {
-			this.add(index);
+			return this.add(index)
 		} else if (operation == 2) {
-			this.subtract(index);
+			return this.subtract(index);
 		} else if (operation == 3) {
-			this.store(index);
+			return this.store(index)
 		} else if (operation == 5) {
-			this.load(index);
+			return this.load(index)
 		} else if (operation == 6) {
-			this.branch(index);
+			return this.branch(index)
 		} else if (operation == 7) {
-			this.branchIfZero(index);
+			return this.branchIfZero(index)
 		} else if (operation == 8) {
-			this.branchIfPositive(index);
+			return this.branchIfPositive(index)
 		} else if (value == 901) {
-			this.input();
+			return this.input()
 		} else if (value == 902) {
-			this.output();
+			return this.output()
 		} else {
 			console.log("invalid operation");
+			return false
 		}
 	},
 
@@ -187,13 +205,24 @@ const Computer = {
 		if (!this.endOfProgram) {
 			const tmp = this.programCounter;
 			this.programCounter++;
-			this.cycleCount++;
-			this.execute(this.memory[tmp]);
+			if (this.execute(this.memory[tmp])) {
+				this.cycleCount++;
+				return true
+			} else {
+				this.programCounter = tmp;
+			}
 			if (this.programCounter > 99) {
 				this.endOfProgram = true;
 			}
+		} else {
+			this.outbox.push("END");
 		}
-	}, 
+		return false
+	},
+
+	clearInbox() {
+		this.inbox = new Array();
+	},
 
 	toString() {
 		return this.memory // TODO: complete toString
