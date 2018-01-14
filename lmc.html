@@ -2,27 +2,55 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<title>LMC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>LMC</title>
     <link rel="stylesheet" href="styles.css"/>
   </head>
   <body>
-    <div class="controls">
-      <button onclick="App.onClickAssemble()">Assemble</button>
-      <button onclick="App.onClickCycle()">Cycle</button>
+    <div class="menu-container">
+      <div class="controls">
+        <button class="control-button" onclick="App.onClickAssemble()">Assemble</button>
+        <button class="control-button" onclick="App.onClickCycle()">One Cycle</button>
+        <button class="control-button">Run</button>
+        <div class="control-selector">
+          <p>Speed:</p>
+          <input type="range" min="0" max="10" value="0"/>
+        </div>
+        <div class="template-selector">
+          <button class="control-button">Load:</button>
+          <select>
+            <option value="">-</option>
+          </select>
+        </div>
+      </div>
     </div>
-    <div class="computer-state">
-  	  <div class="memory-container">
-	    <table class="memory-table table" id="memory-table">
-	    </table>
-		<table class="register-tale table" id="register-table">
-		</table>
-		<table class="flag-table table" id="register-table">
-		</table>
-		<textarea id="code-input" rows="20" cols="25"></textarea>
-    <textarea id="inbox-input" rows="5" cols="10"></textarea>
-	  </div>
-	</div>
+    <div class="main-container">
+      <div class="sub-container code-container">
+        <h1>Code Input</h1>
+        <textarea class="text-input code-input" id="code-input"></textarea>
+      </div>
+      <div class="sub-container io-container">
+        <div class="io-box">
+          <h1>Inbox</h1>
+          <textarea class="text-input io-input" id="inbox-input"></textarea>
+        </div>
+        <div class="io-box">
+          <h1>Outbox</h1>
+          <textarea class="text-input io-input" id="outbox-output"></textarea>
+        </div>
+      </div>
+      <div class="sub-container state-container">
+    	  <div class="memory">
+          <h1>Memory</h1>
+    	    <table class="memory-table table" id="memory-table">
+    	    </table>
+        </div>
+    		<table class="register-tale table" id="register-table">
+    		</table>
+    		<table class="flag-table table" id="register-table">
+    		</table>
+  	  </div>
+  	</div>
 	<script src="computer.js"></script>
 	<script src="assembler.js"></script>
 	<script src="lmc.js"></script>
