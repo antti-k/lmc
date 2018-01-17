@@ -10,9 +10,13 @@
       <div class="controls">
         <button class="control-button" onclick="window.open('https://github.com/antti-k/lmc')">About</button>
         <div class="template-selector">
-          <button class="control-button">Load</button>
-          <select class="select">
-            <option value="">-</option>
+          <button class="control-button" onclick="App.onClickLoad()">Load</button>
+          <select class="select" id="selector">
+            <option value="none">-</option>
+            <option value="io">IO</option>
+            <option value="add">ADD</option>
+            <option value="multi">MULTIPLY</option>
+            <option value="max">MAX</option>
           </select>
         </div>
         <button class="control-button" onclick="App.onClickAssemble()">Assemble</button>

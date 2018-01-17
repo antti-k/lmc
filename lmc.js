@@ -88,7 +88,30 @@ const App = {
 		while (tmp == true) {
 			tmp = this.cycle();
 		}
+	},
+
+	onClickLoad() {
+		let code = ""
+		let inbox = ""
+		const tmp = document.getElementById("selector").value;
+		if (tmp == "io") {
+			code = "// Get a value from inbox and then output it to the outbox \nINP \nOUT \nHLT";
+			inbox = "506";
+		} else if (tmp == "add") {
+			code = "// Get two values from inbox, add them together and then output the result \nINP \nSTA tmp \nINP \nADD tmp \nOUT \nHLT \ntmp DAT";
+			inbox = "506\n360";
+
+		} else if (tmp == "multi") {
+			code = "// Get two values, multiply first value by second and then output the result \nINP \nSTA tmp1 \nINP \nloop BRZ op \nSUB one \nSTA tmp2 \nLDA tmp3 \nADD tmp1 \nSTA tmp3 \nLDA tmp2 \nBRA loop \nop LDA tmp3 \nOUT \nHLT \ntmp1 DAT \ntmp2 DAT \ntmp3 DAT \none DAT 1";
+			inbox = "41\n18";
+		} else if (tmp == "max") {
+			code = "//First input amount of numbers to check and then the numbers. Outputs the largest number /nINP /nnext BRZ end /nSUB one /nSTA count /nINP /nSTA tmp /nSUB max /nBRP isGreater /nBRA skip /nisGreater LDA tmp /nSTA max /nskip LDA count /nBRA next /nend LDA max /nOUT /nHLT /ncount DAT /none DAT 1 /nmax DAT 0 /ntmp DAT";
+			inbox = "256\n455\n506\n888\n456";
+		}
+		this.codeInput.value = code;
+		this.inboxInput.value = inbox;
 	}
+		
 }
 
 App.generateMemTable(Computer.memory, App.memTable); // Generate memory table on load
