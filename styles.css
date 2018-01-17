@@ -10,11 +10,18 @@ h1 {
 	text-align: center;
 }
 
-.controls {
-	height: 50px;
-	background: #1A96FF;
+.menu-container {
 	display: flex;
 	justify-content: center;
+	background: #1A96FF;
+}
+
+.controls {
+	height: 50px;
+	width: 100%;
+	background: #1A96FF;
+	display: flex;
+	justify-content: space-between;
 }
 
 .control-button {
@@ -110,4 +117,10 @@ h1 {
 .io-input {
 	width: 120px;
 	height: 100%;
+}
+
+@media only screen and (min-width: 651px) {
+	.controls {
+		width: 650px;
+	}
 }
