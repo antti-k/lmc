@@ -171,7 +171,7 @@ const Computer = {
 			return false
 		}
 
-		const operation = Math.round(value / 100);
+		const operation = Math.floor(value / 100);
 		const index = value % 100;
 
 		if (value == 0) {
@@ -195,7 +195,7 @@ const Computer = {
 		} else if (value == 902) {
 			return this.output()
 		} else {
-			console.log("invalid operation");
+			console.log("invalid operation " + value + " op: " + operation );
 			return false
 		}
 	},
