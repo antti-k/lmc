@@ -60,6 +60,7 @@ const Computer = {
 	load(index) {
 		/* Copy a value from memory to the accumulator */
 		this.accumulator = this.memory[index];
+		this.negativeFlag = false;
 		return true
 	},
 
