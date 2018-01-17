@@ -37,7 +37,9 @@ const App = {
 	updateMemTable(memoryArray) {
 		memoryArray.forEach((value, index) => {
 			this.memoryCells[index].innerHTML = value;
-		})
+			this.memoryCells[index].classList.remove("hlon");
+		});
+		this.memoryCells[Computer.programCounter].classList.add("hlon");
 	},
 
 	/* Updates table with values from a cpu object */

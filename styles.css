@@ -75,6 +75,12 @@ h1 {
 	background: #FFF;
 }
 
+/* Classes for cell highlight */
+.hlon {
+	background: #666;
+	color: #FFF;
+}
+
 .text-input {
 	resize: none;
 }

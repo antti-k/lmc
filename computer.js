@@ -120,7 +120,7 @@ const Computer = {
 	halt() {
 		/* End the program. */
 		this.endOfProgram = true;
-		return true
+		return false
 	},
 
 	data(value, index) {
@@ -214,9 +214,8 @@ const Computer = {
 			if (this.programCounter > 99) {
 				this.endOfProgram = true;
 			}
-		} else {
-			this.outbox.push("END");
-		}
+		} 
+		this.outbox.push("END");
 		return false
 	},
 
