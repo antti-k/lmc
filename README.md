@@ -2,6 +2,13 @@
 ## Intro
 Little man computer (LMC) is a simple model of a computer that is generally used for learning purposes. When I first read about LMC I tought that programming my own simulator would be a great learning opportunity. Simulator is mostly based on [Wikipedia entry of LMC](https://en.wikipedia.org/wiki/Little_man_computer).  My simulator also has a functional assembler that supports mneumonics and labels for ease of programming. 
 
+## Quick Start
+1. [Open the app](https://lmc1-107fc.firebaseapp.com)
+2. Choose a pre-loaded program
+3. Click Load to get the program
+4. Click Assemble to assemble the program to the memory
+5. Click Step/Run to run the program
+
 ## Registers
 The computer has five registers. Three of them hold an integer value and two of them have a boolean value. Program counter holds the value for the next instruction to be executed. Accumulator is used as a work memory that is used in almost every instruction. Cycle count counts the cycles your program has used and can't be altered or accessed. Negative flag shows if accumulator value is negative after a subtraction operation. End of program flag is used to indicate that the end of the program has been reached.
 
