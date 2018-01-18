@@ -106,7 +106,7 @@ const App = {
 			inbox = "41\n18";
 		} else if (tmp == "max") {
 			code = "//First input amount of numbers to check and then the numbers. Outputs the largest number \nINP \nnext BRZ end \nSUB one \nSTA count \nINP \nSTA tmp \nSUB max \nBRP isGreater \nBRA skip \nisGreater LDA tmp \nSTA max \nskip LDA count \nBRA next \nend LDA max \nOUT \nHLT \ncount DAT \none DAT 1 \nmax DAT 0 \ntmp DAT";
-			inbox = "256\n455\n506\n888\n456";
+			inbox = "5\n256\n455\n506\n888\n456";
 		}
 		this.codeInput.value = code;
 		this.inboxInput.value = inbox;
