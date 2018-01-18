@@ -89,7 +89,7 @@ const Computer = {
 
 	branchIfPositive(index) {
 		/* Branch if the value of accumulator is positive */
-		if (!this.negativeflag) {
+		if (!this.negativeFlag) {
 			this.branch(index);
 		}
 		return true
