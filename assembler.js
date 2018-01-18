@@ -1,7 +1,7 @@
 const Assembler = {
 	validInstructions : ["ADD", "SUB", "STA", "LDA", "BRA", "BRZ", "BRP",
 		"INP", "OUT", "HLT", "DAT"],
-
+	/* Runs the whole assembly process and returns array of machine code */
 	assemble(input) {
 		const parsedInput = this.parseText(input);
 		const labels = this.getLabels(parsedInput);
