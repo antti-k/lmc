@@ -105,7 +105,7 @@ const App = {
 			code = "// Get two values, multiply first value by second and then output the result \nINP \nSTA tmp1 \nINP \nloop BRZ op \nSUB one \nSTA tmp2 \nLDA tmp3 \nADD tmp1 \nSTA tmp3 \nLDA tmp2 \nBRA loop \nop LDA tmp3 \nOUT \nHLT \ntmp1 DAT \ntmp2 DAT \ntmp3 DAT \none DAT 1";
 			inbox = "41\n18";
 		} else if (tmp == "max") {
-			code = "//First input amount of numbers to check and then the numbers. Outputs the largest number \nINP \nnext BRZ end \nSUB one \nSTA count \nINP \nSTA tmp \nSUB max \nBRP isGreater \nBRA skip \nisGreater LDA tmp \nSTA max \nskip LDA count \nBRA next \nend LDA max \nOUT \nHLT \ncount DAT \none DAT 1 \nmax DAT 0 \ntmp DAT
+			code = "//First input amount of numbers to check and then the numbers. Outputs the largest number \nINP \nnext BRZ end \nSUB one \nSTA count \nINP \nSTA tmp \nSUB max \nBRP isGreater \nBRA skip \nisGreater LDA tmp \nSTA max \nskip LDA count \nBRA next \nend LDA max \nOUT \nHLT \ncount DAT \none DAT 1 \nmax DAT 0 \ntmp DAT";
 			inbox = "256\n455\n506\n888\n456";
 		}
 		this.codeInput.value = code;
